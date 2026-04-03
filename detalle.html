@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un detalle para ti</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fae1dd;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container { cursor: pointer; position: relative; }
+
+        /* El sobre */
+        .envelope {
+            width: 200px;
+            height: 150px;
+            background-color: #ffb5a7;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            border-style: solid;
+            border-width: 75px 100px 0 100px;
+            border-color: #f08080 transparent transparent transparent;
+            transition: transform 0.5s;
+            transform-origin: top;
+            z-index: 3;
+        }
+
+        /* La carta que sale */
+        .card {
+            position: absolute;
+            width: 180px;
+            height: 130px;
+            background-color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 2;
+            transition: transform 0.5s;
+            box-sizing: border-box;
+        }
+
+        .card p { font-size: 14px; color: #d90429; font-weight: bold; }
+
+        /* Animación al hacer clic */
+        .container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .container.open .card {
+            transform: translateY(-100px);
+        }
+
+        .heart {
+            position: absolute;
+            color: #d90429;
+            font-size: 20px;
+            animation: float 3s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-500px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" onclick="openEnvelope()">
+    <div class="envelope">
+        <div class="card">
+            <p>💖 Eres alguien muy especial 💖</p>
+            <p>Gracias por estar en mi vida.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEnvelope() {
+        document.querySelector('.container').classList.toggle('open');
+        createHearts();
+    }
+
+    function createHearts() {
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.bottom = '0';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }, i * 200);
+        }
+    }
+</script>
+
+</body>
+</html>
